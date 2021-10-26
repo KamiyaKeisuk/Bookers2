@@ -28,16 +28,30 @@
         </thead>
         <tbody>
           <% @books.each do |f| %>
-          <tr>
-            <td>
-              <%= link_to attachment_image_tag(f.user, :profile_image, :fill, 100, 100, format: 'jpeg', fallback: "no_image1.jpg"), user_path(f.user.id) %>
-            </td>
-            <td>
-              <%= link_to f.title, book_path(f.id) %>
-            </td>
-            <td>
-              <%= f.body %>
-            </td>
+            <tr>
+              <td>
+                <%= link_to attachment_image_tag(f.user, :profile_image, :fill, 100, 100, format: 'jpeg', fallback: "no_image1.jpg"), user_path(f.user.id) %>
+              </td>
+              <td>
+                <%= link_to f.title, book_path(f.id) %>
+              </td>
+              <td>
+                <%= f.body %>
+              <td>
+                <% if f.favorited_by?(current_user) %>
+					        <%= link_to book_favorites_path(f), method: :delete do %>
+							    <i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
+							     <%= f.favorites.count %>
+							    <% end %>
+						    <% else %>
+						      <%= link_to book_favorites_path(f), method: :post do %>
+							    <i class="fa fa-heart" aria-hidden="true" style="color: blue;"></i>
+							     <%= f.favorites.count %>
+							    <% end %>
+						    <% end %>
+						  </td>
+						  <td>コメント数: <%= f.book_comments.count %></td>
+            </tr>
           <% end %>
         </tbody>
       </table>
