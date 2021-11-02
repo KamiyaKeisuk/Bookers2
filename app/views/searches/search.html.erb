@@ -1,0 +1,45 @@
+<% if @model == 'user' %>
+	<h3>Users search for "<%= @content %>"</h3>
+  <table class='table'>
+  <thead>
+    <tr>
+      <th>image</th>
+      <th>name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @records.each do |user| %>
+      <tr>
+        <td><%= attachment_image_tag(user, :profile_image, :fill, 50, 50, fallback: "no_image1.jpg") %></td>
+        <td><%= user.name %></td>
+        <td><%= link_to 'Show', user_path(user), class: "user_#{user.id}" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% elsif @model == 'book' %>
+	<h3>Books search for "<%= @content %>"</h3>
+  <table class='table table-hover table-inverse'>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Title</th>
+      <th>Opinion</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @records.each do |book| %>
+      <tr>
+        <td><%= link_to user_path(book.user) do %>
+          <%= attachment_image_tag(book.user, :profile_image, :fill, 50, 50, fallback: "no_image1.jpg") %>
+          <% end %>
+        </td>
+        <td><%= link_to book.title, book_path(book), class: "book_#{book.id}" %></td>
+        <td><%= book.body %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
