@@ -4,8 +4,8 @@ class BooksController < ApplicationController
     to  = Time.current.at_end_of_day
     from  = (to - 6.day).at_beginning_of_day
     @books = Book.includes(:favorited_users).
-      sort {|a,b| 
-        b.favorites.includes(:favorites).where(created_at: from...to).size <=> 
+      sort {|a,b|
+        b.favorites.includes(:favorites).where(created_at: from...to).size <=>
         a.favorites.includes(:favorites).where(created_at: from...to).size
       }
     @book = Book.new
@@ -30,6 +30,7 @@ class BooksController < ApplicationController
     @user = @book.user
     @new_book = Book.new
     @book_comment = BookComment.new
+    @user = User.find(current_user.id)
   end
 
   def edit
